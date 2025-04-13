@@ -8,7 +8,7 @@ export default function QuotationItems(){
             <View style={styles.contentLeft}>
 
                 <View style={styles.boxLogo}>
-                    <Image style={styles.image} source={require("../../../img/OIP.png")}/>
+                    <Image style={styles.image} source={require("../../../img/BTC.png")}/>
                     <Text style={styles.date}>13/04/2025</Text>
                 </View>
 
