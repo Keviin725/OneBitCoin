@@ -43,8 +43,8 @@ async function getListCoins(url) {
 
 async function getPriceCoinsChart(url) {
   let responseC = await fetch(url)
-  let returnApiC = await response.json()
-  let selectListQuotationsC = returnApi.bpi
+  let returnApiC = await responseC.json()
+  let selectListQuotationsC = returnApiC.bpi
   const queryCoinsList = Object.keys(selectListQuotationsC).map((key)=>{
     return{
       data: key.split('-').reverse().join('/'),
