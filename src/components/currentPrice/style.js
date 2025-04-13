@@ -1,0 +1,24 @@
+import { StyleSheet } from "react-native";
+
+
+const styles = StyleSheet.create({
+    headerPrice:{
+        width: '100%',
+        height: 'auto',
+        alignItems: "center"
+    },
+    currentPrice:{
+        color: "#D4af37",
+        fontSize: 22,
+        fontWeight: "bold",
+        paddingTop: 20
+    },
+    textPrice:{
+        color: "#fff",
+        fontSize: 16,
+        fontWeight:"bold",
+        
+    }
+})
+
+export default styles

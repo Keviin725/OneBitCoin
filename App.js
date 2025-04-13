@@ -1,6 +1,6 @@
 
 import { StyleSheet, StatusBar, SafeAreaView, Platform } from 'react-native';
-
+import CurrentPrice from './src/components/currentPrice';
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
@@ -9,6 +9,7 @@ export default function App() {
         backgroundColor='#D4af37'
         barStyle="dark-content" // ou light-content
       />
+      <CurrentPrice/>
     </SafeAreaView>
   );
 }
