@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native'
 import styles from "./style"
 
+
 export default function QuotationList(){
     return(
         <Fragment>
@@ -22,7 +23,7 @@ export default function QuotationList(){
                 <Text style={styles.textbuttonQuery}>6m</Text>
             </TouchableOpacity>
         </View>
-        <ScrollView></ScrollView>
+        
         </Fragment>
     )
 }

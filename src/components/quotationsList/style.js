@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     buttonQuery:{
         width:50,
         height: 30,
-        backgroundColor: '#D4af37',
+        backgroundColor: '#f7931a',
         borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center'
