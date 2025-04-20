@@ -84,6 +84,7 @@ export default function App() {
   const [coinsChartList, setCoinsChartList] = useState([0])
   const [days, setDays] = useState(30)
   const [updateData, setUpdateData] = useState(true)
+  const [currentPrice, setCurrentPrice] = useState(null);
 
   function updateDay(number) {
     setDays(number)
@@ -91,17 +92,33 @@ export default function App() {
   }
 
   useEffect(() =>{
+    
+    const fetchCurrentPrice = async () => {
+      try {
+          const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
+          const data = await response.json();
+          setCurrentPrice(data.price);
+      } catch (error) {
+          console.error("Error fetching current price:", error);
+      }
+    }
+    
     getListCoins(url(days)).then((data)=>{
       setCoinsList(data)
     })
-
+    
     getPriceCoinsChart(url(days)).then((dataC) =>{
       setCoinsChartList(dataC)
     })
-
+    
     if (updateData) {
       setUpdateData(false)
     }
+
+
+    fetchCurrentPrice();
+    const interval = setInterval(fetchCurrentPrice, 30000);
+    return () => clearInterval(interval);
   }, [updateData])
 
   return (
@@ -111,7 +128,7 @@ export default function App() {
         backgroundColor='#f7931a'
         barStyle="dark-content" // ou light-content
       />
-      <CurrentPrice/>
+      <CurrentPrice currentPrice={currentPrice}/>
       <HistoryGraphic infoDataChart={coinsChartList}/>
       <QuotationList filterDay={updateDay} listTransactions ={coinsList}/>
      

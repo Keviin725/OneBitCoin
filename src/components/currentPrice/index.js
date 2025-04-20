@@ -2,11 +2,22 @@ import React from "react";
 import {View, Text} from 'react-native'
 import styles from "./style"
 
-export default function CurrentPrice(){
+
+
+export default function CurrentPrice(props){
+
+    const formattedPrice = parseFloat(props.currentPrice).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
+    
     return(
         <View style={styles.headerPrice}>
             <Text style={styles.currentPrice}>
-                $ 54423.365
+                {formattedPrice}
             </Text>
             <Text style={styles.textPrice}>
                 Ultima cotacao

@@ -8,7 +8,6 @@ export default function HistoryGraphic(props){
         <View>
   <LineChart
     data={{
-      labels: ["January", "February", "March", "April", "May", "June"],
       datasets: [
         {
           data: props.infoDataChart
@@ -21,9 +20,9 @@ export default function HistoryGraphic(props){
     yAxisSuffix="k"
     yAxisInterval={1} // optional, defaults to 1
     chartConfig={{
-      backgroundColor: "#e26a00",
-      backgroundGradientFrom: "#fb8c00",
-      backgroundGradientTo: "#ffa726",
+      backgroundColor: "#000000",
+      backgroundGradientFrom: "#232323",
+      backgroundGradientTo: "#3f3f3f",
       decimalPlaces: 2, // optional, defaults to 2dp
       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -31,7 +30,7 @@ export default function HistoryGraphic(props){
         borderRadius: 16
       },
       propsForDots: {
-        r: "6",
+        r: "3",
         strokeWidth: "2",
         stroke: "#ffa726"
       }
