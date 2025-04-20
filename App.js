@@ -7,52 +7,75 @@ import QuotationList from './src/components/quotationsList';
 
 
 
+
 function addZero(number) {
-  if (number <=9) {
-    return "0" + number
+  if (number <= 9) {
+    return "0" + number;
   }
-  return number
+  return number;
 }
 
 function url(qtdDays) {
-  const date = new Date()
-  const listLastDays = qtdDays
-
-  const end_date = `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(date.getDate())}`
-
-  date.setDate(date.getDate() - listLastDays)
-
-  const start_date = `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(date.getDate())}`
-
-  return `https://api.coindesk.com/v1/bpi/historical/close.json?start=${start_date}&end=${end_date}`
+  const date = new Date();
+  const endTime = date.getTime(); // Timestamp atual em milissegundos
+  
+  date.setDate(date.getDate() - qtdDays);
+  const startTime = date.getTime(); // Timestamp de 'qtdDays' atrás
+  
+  return `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=${startTime}&endTime=${endTime}&limit=${qtdDays}`;
 }
 
 async function getListCoins(url) {
-  let response = await fetch(url)
-  let returnApi = await response.json()
-  let selectListQuotations = returnApi.bpi
-  const queryCoinsList = Object.keys(selectListQuotations).map((key)=>{
-    return{
-      data: key.split('-').reverse().join('/'),
-      valor: selectListQuotations(key)
+  try {
+   // console.log("Fetching from:", url);
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  })
-  let data = queryCoinsList.reverse()
-  return data
+    
+    const data = await response.json();
+    //console.log("Binance API Response:", data);
+    
+    if (data.code) { // Se houver erro na resposta da Binance
+      throw new Error(`Binance API Error: ${data.msg} (code ${data.code})`);
+    }
+    
+    // Processa os candles (cada item é um array)
+    return data.map(item => ({
+      data: new Date(item[0]).toLocaleDateString('pt-BR'), // Formata data
+      valor: parseFloat(item[4]) // Preço de fechamento (índice 4)
+    })).reverse();
+    
+  } catch (error) {
+    console.error("API Error:", error.message);
+    return []; // Retorna array vazio em caso de erro
+  }
 }
 
 async function getPriceCoinsChart(url) {
-  let responseC = await fetch(url)
-  let returnApiC = await responseC.json()
-  let selectListQuotationsC = returnApiC.bpi
-  const queryCoinsList = Object.keys(selectListQuotationsC).map((key)=>{
-    return{
-      data: key.split('-').reverse().join('/'),
-      valor: selectListQuotationsC(key)
+  try {
+    //console.log("Fetching chart data from:", url);
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  })
-  let dataC = queryCoinsList
-  return dataC
+    
+    const data = await response.json();
+    //console.log("Binance Chart Data:", data);
+    
+    if (data.code) { // Se houver erro na resposta da Binance
+      throw new Error(`Binance API Error: ${data.msg} (code ${data.code})`);
+    }
+    
+    // Retorna array simples de preços de fechamento
+    return data.map(item => parseFloat(item[4])).reverse();
+    
+  } catch (error) {
+    console.error("Chart API Error:", error.message);
+    return []; // Retorna array vazio em caso de erro
+  }
 }
 
 export default function App() {
@@ -89,8 +112,8 @@ export default function App() {
         barStyle="dark-content" // ou light-content
       />
       <CurrentPrice/>
-      <HistoryGraphic/>
-      <QuotationList filterDay={updateDay} ListTransactions ={coinsList}/>
+      <HistoryGraphic infoDataChart={coinsChartList}/>
+      <QuotationList filterDay={updateDay} listTransactions ={coinsList}/>
      
     </SafeAreaView>
   );

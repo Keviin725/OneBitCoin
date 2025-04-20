@@ -1,25 +1,39 @@
+import { View, Text, Image, StyleSheet } from 'react-native';
+import styles from "./style";
 
-import {View, Text, Image} from 'react-native'
-import styles from "./style"
+export default function QuotationItems(props) {
+    // Verificação robusta dos dados
+    if (!props || !props.data || props.valor === undefined || props.valor === null) {
+        return (
+            <View style={[styles.mainContent, {backgroundColor: '#ff000020'}]}>
+                <Text style={{color: 'red'}}>Dados inválidos</Text>
+            </View>
+        );
+    }
 
-export default function QuotationItems(props){
-    return(
+    return (
         <View style={styles.mainContent}>
             <View style={styles.contentLeft}>
-
                 <View style={styles.boxLogo}>
-                    <Image style={styles.image} source={require("../../../img/BTC.png")}/>
-                    <Text style={styles.date}>{props.data}</Text>
+                    <Image 
+                        style={styles.image} 
+                        source={require("../../../img/BTC.png")}
+                        resizeMode="contain"
+                    />
+                    <Text style={styles.date}>
+                        {props.data} {/* Já vem formatado como "dd/MM/yyyy" */}
+                    </Text>
                 </View>
-
             </View>
             
             <View style={styles.contentRight}>
-                <Text style={styles.price}>{props.valor}</Text>
+                <Text style={styles.price}>
+                    {`$ ${parseFloat(props.valor).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })}`}
+                </Text>
             </View>
-
         </View>
-           
-        
-    )
+    );
 }
