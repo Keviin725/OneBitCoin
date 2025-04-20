@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native
 import QuotationItems from "./quotationsItems";
 import styles from "./style"
 export default function QuotationList(props) {
-    console.log("Dados recebidos no QuotationList:", props.listTransactions)
+ //   console.log("Dados recebidos no QuotationList:", props.listTransactions)
     const daysQuery = props.filterDay;
     
     return (
